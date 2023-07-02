@@ -26,7 +26,7 @@ def prepare_train_test():
     product_list = set(["_".join(string.split("_")[:-1]) for string in img_list])
     categories = set(["_".join(string.split("_")[:-2]) for string in img_list])
 
-    df = pd.read_csv(raw_data_dir / "raw_test.csv")
+    df = pd.read_csv(raw_data_dir / "raw.csv")
     df = df[df["product_id"].isin(product_list)]
 
     train, index = train_test_split(
