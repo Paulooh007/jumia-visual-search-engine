@@ -1,6 +1,14 @@
 import timm
 import torch
 import torch.nn as nn
+from .gem_pooling import GeM
+from .arc_margin_product import ArcMarginProduct
+
+
+CLASSES = 8
+SCALE = 10
+MARGIN = 0.1
+EMBEDING_SIZE = 512
 
 
 class EfficientNet_b0_ns(nn.Module):
@@ -12,14 +20,10 @@ class EfficientNet_b0_ns(nn.Module):
         self.model.global_pool = nn.Identity()
         self.pooling = GeM()
         self.drop = nn.Dropout(p=0.2, inplace=False)
-        self.fc = nn.Linear(in_features, 512)
+        self.fc = nn.Linear(in_features, EMBEDING_SIZE)
         self.arc = ArcMarginProduct(
-            512,
-            CONFIG["num_classes"],
-            s=CONFIG["s"],
-            m=CONFIG["m"],
-            easy_margin=CONFIG["ls_eps"],
-            ls_eps=CONFIG["ls_eps"],
+            EMBEDING_SIZE,
+            CLASSES,
         )
 
     def forward(self, images, labels=None):
@@ -33,15 +37,3 @@ class EfficientNet_b0_ns(nn.Module):
             return output, emb
         else:
             return emb
-
-
-# model = JumiaModelV2(CONFIG["model_name"])
-# model.to(CONFIG["device"])
-# optimizer = optim.Adam(
-#     model.parameters(), lr=CONFIG["learning_rate"], weight_decay=CONFIG["weight_decay"]
-# )
-
-# model = JumiaModel(CONFIG['model_name'])
-# model.to(CONFIG['device']);
-# optimizer = optim.Adam(model.parameters(), lr=CONFIG['learning_rate'],
-#                        weight_decay=CONFIG['weight_decay'])
