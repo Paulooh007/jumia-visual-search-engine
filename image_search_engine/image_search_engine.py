@@ -2,7 +2,7 @@
 
 # from image_search_engine import data
 
-from image_search_engine import data
+# from image_search_engine import data
 
 
-print("Import Successful")
+# print("Import Successful")

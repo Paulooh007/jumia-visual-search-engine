@@ -1,41 +1,39 @@
-import sys
-from pathlib import Path
-import numpy as np
-import pandas as pd
-
-import os
-
+import copy
 import gc
 import math
-import copy
+import os
 import random
-
-# Pytorch Imports
-import torch
-
-# import torch.nn as nn
-import torch.optim as optim
-from torch import nn
-
-import torch.nn.functional as F
-from torch.optim import lr_scheduler
-from torch.utils.data import Dataset, DataLoader
+import sys
+import warnings
+from collections import defaultdict
+from pathlib import Path
 
 # Utils
 import joblib
+import numpy as np
+import pandas as pd
 
-from tqdm import tqdm
+# Pytorch Imports
+import torch
+import torch.nn.functional as F
 
-from collections import defaultdict
+# import torch.nn as nn
+import torch.optim as optim
 
 # Sklearn Imports
 from sklearn.preprocessing import LabelEncoder
+from torch import nn
+from torch.optim import lr_scheduler
+from torch.utils.data import DataLoader, Dataset
+from tqdm import tqdm
 
-import warnings
+from image_search_engine.data import JumiaImageDataset
+from image_search_engine.models import EfficientNet_b0_ns
+from training.utils import load_config, set_seed
 
 warnings.filterwarnings("ignore")
 
-from colorama import Fore, Back, Style
+from colorama import Back, Fore, Style
 
 b_ = Fore.BLUE
 sr_ = Style.RESET_ALL
@@ -45,44 +43,22 @@ import time
 # For descriptive error messages
 os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
 
-PARENT_DIR = str(Path(__file__).resolve().parents[1])
-sys.path.append(PARENT_DIR)
-
-from image_search_engine.data import JumiaImageDataset
-from image_search_engine.models import EfficientNet_b0_ns
-
-from training.utils import load_config
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 CONFIG = load_config()
-CWD = Path.cwd()
+PARENT_DIR = Path(__file__).parent
+
 DATA_DIR = Path(PARENT_DIR) / "data"
-
-TRAIN_DF = "train_df.csv"
-TEST_DF = "test_df.csv"
-
-
-ROOT_DIR = "/artifacts/weights"
-
 TRAIN_DIR = DATA_DIR / "processed/train"
 TEST_DIR = DATA_DIR / "processed/index"
 
-print(TRAIN_DIR, TEST_DIR)
+TRAIN_DF = PARENT_DIR / "train_df.csv"
+TEST_DF = PARENT_DIR / "test_df.csv"
 
 
-def set_seed(seed=42):
-    """Sets the seed of the entire notebook so results are the same every time we run.
-    This is for REPRODUCIBILITY."""
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
-    # When running on the CuDNN backend, two further options must be set
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
-    # Set a fixed value for the hash seed
-    os.environ["PYTHONHASHSEED"] = str(seed)
+WEIGHTS_DIR = PARENT_DIR / "artifacts/weights"
 
 
 set_seed(CONFIG["seed"])
@@ -95,7 +71,7 @@ encoder = LabelEncoder()
 df_train["class"] = encoder.fit_transform(df_train["class"])
 df_valid["class"] = encoder.fit_transform(df_valid["class"])
 
-with open(CWD / "artifacts/le.pkl", "wb") as fp:
+with open(PARENT_DIR / "artifacts/le.pkl", "wb") as fp:
     joblib.dump(encoder, fp)
 
 
@@ -245,7 +221,7 @@ def run_training(model, optimizer, scheduler, device, num_epochs):
             best_epoch_loss = val_epoch_loss
             best_model_wts = copy.deepcopy(model.state_dict())
             PATH = "Loss{:.4f}_epoch{:.0f}.bin".format(best_epoch_loss, epoch)
-            torch.save(model.state_dict(), PATH)
+            torch.save(model.state_dict(), WEIGHTS_DIR / PATH)
             # Save a model file from the current directory
             print(f"Model Saved{sr_}")
 
@@ -291,25 +267,41 @@ def fetch_scheduler(optimizer):
     return scheduler
 
 
-# def main():
-train_dataset = JumiaImageDataset(df_train, transforms=data_transforms["train"])
-valid_dataset = JumiaImageDataset(df_valid, transforms=data_transforms["valid"])
+print(WEIGHTS_DIR)
 
-train_loader = DataLoader(
-    train_dataset,
-    batch_size=CONFIG["train_batch_size"],
-    # num_workers=os.cpu_count(),
-    shuffle=True,
-    pin_memory=True,
-    drop_last=True,
-)
-valid_loader = DataLoader(
-    valid_dataset,
-    batch_size=CONFIG["valid_batch_size"],
-    # num_workers=os.cpu_count(),
-    shuffle=False,
-    pin_memory=True,
-)
+
+from image_search_engine.metadata import jumia_3650
+from image_search_engine.data.base_data_module import JumiaImageDataset
+
+TRAIN_FILENAME = jumia_3650.PROCESSED_DATA_DIRNAME / "train.csv"
+TEST_FILENAME = jumia_3650.PROCESSED_DATA_DIRNAME / "test.csv"
+
+train_dataset = JumiaImageDataset(TRAIN_FILENAME, data_transforms["train"])
+train_loader = train_dataset.create_dataloader(CONFIG["train_batch_size"])
+
+test_dataset = JumiaImageDataset(TEST_FILENAME, data_transforms["valid"])
+valid_loader = test_dataset.create_dataloader(CONFIG["valid_batch_size"], shuffle=False)
+
+
+# def main():
+# train_dataset = JumiaImageDataset(df_train, transforms=data_transforms["train"])
+# valid_dataset = JumiaImageDataset(df_valid, transforms=data_transforms["valid"])
+
+# train_loader = DataLoader(
+#     train_dataset,
+#     batch_size=CONFIG["train_batch_size"],
+#     # num_workers=os.cpu_count(),
+#     shuffle=True,
+#     pin_memory=True,
+#     drop_last=True,
+# )
+# valid_loader = DataLoader(
+#     valid_dataset,
+#     batch_size=CONFIG["valid_batch_size"],
+#     # num_workers=os.cpu_count(),
+#     shuffle=False,
+#     pin_memory=True,
+# )
 
 scheduler = fetch_scheduler(optimizer)
 

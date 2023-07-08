@@ -1,11 +1,11 @@
 import json
 from pathlib import Path
 
-CWD = Path.cwd()
+parent_dir = Path(__file__).parent
 
 
 def load_config(
-    file_path=CWD / "artifacts/config.json",
+    file_path=parent_dir / "artifacts/config.json",
 ):
     with open(file_path) as file:
         data = json.load(file)
