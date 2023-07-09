@@ -3,6 +3,8 @@ import torch
 import numpy as np
 import os
 from pathlib import Path
+from torch.optim import lr_scheduler
+
 
 PARENT_DIR = Path(__file__).parent
 
@@ -28,27 +30,30 @@ def set_seed(seed=42):
     os.environ["PYTHONHASHSEED"] = str(seed)
 
 
-# def fetch_scheduler(optimizer, scheduler):
-#     if scheduler == "CosineAnnealingLR":
-#         scheduler = lr_scheduler.CosineAnnealingLR(
-#             optimizer, T_max=CONFIG["T_max"], eta_min=CONFIG["min_lr"]
-#         )
-#     elif scheduler == "CosineAnnealingWarmRestarts":
-#         scheduler = lr_scheduler.CosineAnnealingWarmRestarts(
-#             optimizer, T_0=CONFIG["T_0"], eta_min=CONFIG["min_lr"]
-#         )
+CONFIG = load_config()
 
-#     elif scheduler == "OneCycleLR":
-#         scheduler = lr_scheduler.OneCycleLR(
-#             optimizer,
-#             max_lr=CONFIG["learning_rate"],
-#             total_steps=CONFIG["epochs"] * len(train_loader),
-#         )
 
-#     elif scheduler == None:
-#         return None
+def fetch_scheduler(optimizer, dl_len):
+    if CONFIG["scheduler"] == "CosineAnnealingLR":
+        scheduler = lr_scheduler.CosineAnnealingLR(
+            optimizer, T_max=CONFIG["T_max"], eta_min=CONFIG["min_lr"]
+        )
+    elif CONFIG["scheduler"] == "CosineAnnealingWarmRestarts":
+        scheduler = lr_scheduler.CosineAnnealingWarmRestarts(
+            optimizer, T_0=CONFIG["T_0"], eta_min=CONFIG["min_lr"]
+        )
 
-#     return scheduler
+    elif CONFIG["scheduler"] == "OneCycleLR":
+        scheduler = lr_scheduler.OneCycleLR(
+            optimizer,
+            max_lr=CONFIG["learning_rate"],
+            total_steps=CONFIG["epochs"] * dl_len,
+        )
+
+    elif CONFIG["scheduler"] == None:
+        return None
+
+    return scheduler
 
 
 if __name__ == "__main__":
