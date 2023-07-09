@@ -1,1 +1,1 @@
-from .jumia_image_dataset_v1 import JumiaImageDataset
+from .jumia_3650_dataset import Jumia3650Dataset

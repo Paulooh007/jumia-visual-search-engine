@@ -28,5 +28,28 @@ def set_seed(seed=42):
     os.environ["PYTHONHASHSEED"] = str(seed)
 
 
+# def fetch_scheduler(optimizer, scheduler):
+#     if scheduler == "CosineAnnealingLR":
+#         scheduler = lr_scheduler.CosineAnnealingLR(
+#             optimizer, T_max=CONFIG["T_max"], eta_min=CONFIG["min_lr"]
+#         )
+#     elif scheduler == "CosineAnnealingWarmRestarts":
+#         scheduler = lr_scheduler.CosineAnnealingWarmRestarts(
+#             optimizer, T_0=CONFIG["T_0"], eta_min=CONFIG["min_lr"]
+#         )
+
+#     elif scheduler == "OneCycleLR":
+#         scheduler = lr_scheduler.OneCycleLR(
+#             optimizer,
+#             max_lr=CONFIG["learning_rate"],
+#             total_steps=CONFIG["epochs"] * len(train_loader),
+#         )
+
+#     elif scheduler == None:
+#         return None
+
+#     return scheduler
+
+
 if __name__ == "__main__":
     load_config()

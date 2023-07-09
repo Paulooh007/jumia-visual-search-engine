@@ -8,7 +8,7 @@ from sklearn.preprocessing import LabelEncoder
 encoder = LabelEncoder()
 
 
-class JumiaImageDataset(Dataset):
+class Jumia3650Dataset(Dataset):
     def __init__(self, data_filename, transforms=None):
         self.df = pd.read_csv(data_filename)
         self.file_paths = self.df["filepath"].values

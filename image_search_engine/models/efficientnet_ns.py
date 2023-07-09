@@ -1,8 +1,8 @@
 import timm
-import torch
 import torch.nn as nn
-from .gem_pooling import GeM
-from .arc_margin_product import ArcMarginProduct
+from image_search_engine.models.gem_pooling import GeM
+from image_search_engine.models.arc_margin_product import ArcMarginProduct
+from image_search_engine.models.base import BaseModel
 
 
 CLASSES = 8
@@ -11,9 +11,9 @@ MARGIN = 0.1
 EMBEDING_SIZE = 512
 
 
-class EfficientNet_b0_ns(nn.Module):
+class EfficientNet_b0_ns(BaseModel):
     def __init__(self, pretrained=True):
-        super(EfficientNet_b0_ns, self).__init__()
+        super(EfficientNet_b0_ns, self).__init__(predtrained=pretrained)
         self.model = timm.create_model("tf_efficientnet_b0_ns", pretrained=pretrained)
         in_features = self.model.classifier.in_features
         self.model.classifier = nn.Identity()
