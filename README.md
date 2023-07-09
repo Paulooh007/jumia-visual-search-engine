@@ -7,7 +7,7 @@ A visual search engine for Jumia that lets users search for products by uploadin
 ## Simple demo to test locally.
 
 <p align="center">
-<img src="https://github.com/Paulooh007/project_gifs/blob/78e5f6a296c3464f16552ecafd6bf4608ee3b61b/chrome-capture-2023-6-9%20(2)(1).gif" alt="Demo gif" title="Demo gif" height="600" width="600"/>
+<img src="https://github.com/Paulooh007/project_gifs/blob/78e5f6a296c3464f16552ecafd6bf4608ee3b61b/chrome-capture-2023-6-9%20(2)(1).gif" alt="Demo gif" title="Demo gif" height="600" width="700"/>
 </p>
 
 
