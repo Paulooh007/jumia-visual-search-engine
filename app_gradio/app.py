@@ -23,7 +23,7 @@ test_img = "training/test_img/10.jpg"
 
 
 def _search(file):
-    query_embedding = model.generate_embeddings(file.name)
+    query_embedding = model.generate_embeddings(file)
     query_embedding = np.array(query_embedding).astype("float32")
     query_embedding.reshape(1, -1)
 
@@ -35,9 +35,12 @@ def _search(file):
 
 
 with gr.Blocks() as demo:
-    input_image = gr.File(label="Uplaod image file")
+    # input_image = gr.File(label="Uplaod image file")
+    input_image = gr.Image(label="Upload image file", type="filepath")
     outputs = gr.Gallery(preview=True)
+    submit = gr.Button(value="submit")
 
     input_image.upload(_search, inputs=input_image, outputs=outputs)
+    # input_image.upload(_search, inputs=input_image, outputs=outputs)
 
 demo.launch()

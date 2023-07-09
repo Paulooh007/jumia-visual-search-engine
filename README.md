@@ -3,6 +3,17 @@ jumia-visual-search-engine
 
 A visual search engine for Jumia that lets users search for products by uploading an image. It uses computer vision to find similar or identical products within the store's inventory, saving users time and providing a more personalized shopping experience.
 
+
+## Simple demo to test locally.
+
+<p align="center">
+<img src="https://github.com/Paulooh007/project_gifs/blob/869e2ca22165c9bdf12bdaf6507fbf04d1a5abd5/chrome-capture-2023-6-9%20(2).gif" alt="Demo gif" title="Demo gif" height="600" width="300"/>
+</p>
+
+
+<details>
+<summary>Click to expand/collapse</summary>
+
 Project Organization
 ------------
 
@@ -51,6 +62,7 @@ Project Organization
     │
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 
+</details>
 
 --------
 

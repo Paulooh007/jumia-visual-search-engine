@@ -6,6 +6,7 @@ import copy
 import gc
 import warnings
 from collections import defaultdict
+import numpy as np
 
 from colorama import Back, Fore, Style
 
@@ -217,5 +218,57 @@ class BaseModel(nn.Module):
                 embedding = self(image)
 
             embeddings.append(embedding.squeeze().cpu().numpy())
+
+        return embeddings
+
+    def generate_embeddings_(self, image_data, data_transforms=None):
+        if data_transforms is None:
+            data_transforms = transforms.Compose(
+                [
+                    transforms.ToTensor(),
+                    transforms.Resize((224, 224)),
+                    transforms.Normalize(
+                        mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
+                    ),
+                ]
+            )
+
+        self.eval()
+
+        if isinstance(image_data, str):
+            # Single image path
+            image_paths = [image_data]
+        elif isinstance(image_data, list):
+            # List of image paths
+            image_paths = image_data
+        elif isinstance(image_data, np.ndarray):
+            # Single numpy array or list of numpy arrays
+            image_paths = None
+            if len(image_data.shape) == 3:
+                image_data = np.expand_dims(image_data, axis=0)
+            elif len(image_data.shape) == 4:
+                image_paths = None
+            else:
+                raise ValueError("Invalid image_data shape. Must be 3D or 4D array.")
+        else:
+            raise ValueError(
+                "Invalid image_data type. Must be a string, list, or numpy array."
+            )
+
+        embeddings = []
+
+        if image_paths is not None:
+            for path in image_paths:
+                image = Image.open(path).convert("RGB")
+                image = data_transforms(image)
+                image = image.unsqueeze(0)  # Add batch dimension
+                image = image.to(DEVICE)
+                with torch.no_grad():
+                    embedding = self(image)
+                embeddings.append(embedding.squeeze().cpu().numpy())
+        else:
+            images = torch.from_numpy(image_data).to(DEVICE)
+            with torch.no_grad():
+                embeddings = self(images).cpu().numpy().tolist()
 
         return embeddings
