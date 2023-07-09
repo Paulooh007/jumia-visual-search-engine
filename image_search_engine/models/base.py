@@ -9,12 +9,14 @@ from collections import defaultdict
 
 from colorama import Back, Fore, Style
 
+from PIL import Image
 
 # Utils
 import numpy as np
 
 # Pytorch Imports
 import torch
+from torchvision import transforms
 
 # import torch.nn as nn
 
@@ -31,6 +33,9 @@ b_ = Fore.BLUE
 sr_ = Style.RESET_ALL
 
 warnings.filterwarnings("ignore")
+
+
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 class BaseModel(nn.Module):
@@ -56,7 +61,7 @@ class BaseModel(nn.Module):
 
             batch_size = images.size(0)
 
-            outputs, emb = self(images, labels)
+            outputs, _ = self(images, labels)
             loss = self._criterion(outputs, labels)
 
             loss.backward()
@@ -92,7 +97,7 @@ class BaseModel(nn.Module):
 
             batch_size = images.size(0)
 
-            outputs, emb = self(images, labels)
+            outputs, _ = self(images, labels)
             loss = self._criterion(outputs, labels)
 
             running_loss += loss.item() * batch_size
@@ -175,3 +180,42 @@ class BaseModel(nn.Module):
         self.load_state_dict(best_model_wts)
 
         return history
+
+    def generate_embeddings(self, image_filepath, data_transforms=None):
+        if data_transforms is None:
+            data_transforms = transforms.Compose(
+                [
+                    transforms.ToTensor(),
+                    transforms.Resize((224, 224)),
+                    transforms.Normalize(
+                        mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
+                    ),
+                ]
+            )
+
+        self.eval()
+
+        if isinstance(image_filepath, str):
+            # Single image path
+            image_paths = [image_filepath]
+        elif isinstance(image_filepath, list):
+            # List of image paths
+            image_paths = image_filepath
+        else:
+            raise ValueError("Invalid image_filepath type. Must be a string or a list.")
+
+        embeddings = []
+
+        for path in image_paths:
+            image = Image.open(path).convert("RGB")
+            image = data_transforms(image)
+            image = image.unsqueeze(0)  # Add batch dimension
+            image = image.to(DEVICE)
+
+            # Generate embedding
+            with torch.no_grad():
+                embedding = self(image)
+
+            embeddings.append(embedding.squeeze().cpu().numpy())
+
+        return embeddings

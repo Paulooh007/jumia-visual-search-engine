@@ -3,17 +3,38 @@ import torch
 import pandas as pd
 from PIL import Image
 from torch.utils.data import Dataset, DataLoader
-from sklearn.preprocessing import LabelEncoder
+import joblib
+from pathlib import Path
+from torchvision import transforms
 
-encoder = LabelEncoder()
+import joblib
+
+PACKAGE_DIR = Path(__file__).parent.parent
+
+# Load the pickled file
+with open(PACKAGE_DIR / "artifacts/class_encoder_jumia_3650.pkl", "rb") as file:
+    encoder = joblib.load(file)
 
 
 class Jumia3650Dataset(Dataset):
-    def __init__(self, data_filename, transforms=None):
+    def __init__(self, data_filename, data_transforms=None, img_size=224):
         self.df = pd.read_csv(data_filename)
         self.file_paths = self.df["filepath"].values
-        self.labels = encoder.fit_transform(self.df["class"])
-        self.transforms = transforms
+        self.labels = encoder.transform(self.df["class"])
+        self.classes = encoder.classes_
+        self.class_to_idx = {l: i for i, l in enumerate(encoder.classes_)}
+        if transforms is None:
+            self.data_transforms = transforms.Compose(
+                [
+                    transforms.ToTensor(),
+                    transforms.Resize((img_size, img_size)),
+                    transforms.Normalize(
+                        mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
+                    ),
+                ]
+            )
+        else:
+            self.data_transforms = data_transforms
 
     def __len__(self):
         return len(self.df)
@@ -23,8 +44,7 @@ class Jumia3650Dataset(Dataset):
         img = Image.open(img_path).convert("RGB")
         label = self.labels[index]
 
-        if self.transforms:
-            img = self.transforms(img)
+        img = self.data_transforms(img)
 
         return {"image": img, "label": torch.tensor(label, dtype=torch.long)}
 

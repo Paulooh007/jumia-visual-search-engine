@@ -4,13 +4,16 @@ import numpy as np
 import os
 from pathlib import Path
 from torch.optim import lr_scheduler
+import joblib
 
 
-PARENT_DIR = Path(__file__).parent
+TRAINING_DIR = Path(__file__).parent
+PROJECT_DIR = TRAINING_DIR.parent
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def load_config(
-    file_path=PARENT_DIR / "training_config.json",
+    file_path=TRAINING_DIR / "training_config.json",
 ):
     with open(file_path) as file:
         data = json.load(file)
@@ -54,6 +57,24 @@ def fetch_scheduler(optimizer, dl_len):
         return None
 
     return scheduler
+
+
+def serialize_object(obj, file_path):
+    try:
+        joblib.dump(obj, file_path)
+        print(f"Object serialized and saved successfully: {file_path}")
+    except Exception as e:
+        print(f"Error serializing object: {str(e)}")
+
+
+def load_serialized_object(file_path):
+    try:
+        obj = joblib.load(file_path)
+        return obj
+    except FileNotFoundError:
+        print(f"File not found: {file_path}")
+    except Exception as e:
+        print(f"Error loading serialized object: {str(e)}")
 
 
 if __name__ == "__main__":
