@@ -1,7 +1,6 @@
 import timm
 import torch
 import torch.nn as nn
-from PIL import Image
 from image_search_engine.models.gem_pooling import GeM
 from image_search_engine.models.arc_margin_product import ArcMarginProduct
 from image_search_engine.models.base import BaseModel

@@ -12,7 +12,9 @@ import joblib
 PACKAGE_DIR = Path(__file__).parent.parent
 
 # Load the pickled file
-with open(PACKAGE_DIR / "artifacts/class_encoder_jumia_3650.pkl", "rb") as file:
+with open(
+    PACKAGE_DIR / "artifacts/label_encoder/class_encoder_jumia_3650.pkl", "rb"
+) as file:
     encoder = joblib.load(file)
 
 
