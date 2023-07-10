@@ -1,6 +1,7 @@
-from image_search_engine import utils
-import torch
 import numpy as np
+import torch
+
+from image_search_engine import utils
 from image_search_engine.models import EfficientNet_b0_ns
 
 MODEL_FILE = "model.pt"

@@ -1,16 +1,14 @@
-from training.utils import load_serialized_object
-import numpy as np
-import pandas as pd
 import time
-from image_search_engine.metadata import jumia_3650
 
 # Reduce dimensionality using t-SNE
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 
 from image_search_engine.metadata import jumia_3650
-
-from sklearn.decomposition import PCA
+from training.utils import load_serialized_object
 
 TRAIN_FILENAME = jumia_3650.PROCESSED_DATA_DIRNAME / "train.csv"
 
@@ -63,10 +61,9 @@ plt.colorbar(scatter_plot)
 plt.savefig("tsne.png")
 
 
-from PIL import Image
-
-from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from matplotlib.cbook import get_sample_data
+from matplotlib.offsetbox import AnnotationBbox, OffsetImage
+from PIL import Image
 
 
 def plot_images_in_2d(x, y, image_paths, axis=None, zoom=1):

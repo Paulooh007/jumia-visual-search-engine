@@ -1,4 +1,5 @@
 from torchvision import transforms
+
 from training.utils import load_config
 
 CONFIG = load_config()

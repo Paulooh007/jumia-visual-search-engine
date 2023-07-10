@@ -1,10 +1,9 @@
-import pandas as pd
 import os
 import shutil
 from pathlib import Path
 
+import pandas as pd
 from sklearn.model_selection import train_test_split
-
 
 project_dir = Path(__file__).resolve().parents[2]
 data_dir = project_dir / "data"

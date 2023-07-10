@@ -1,13 +1,13 @@
-from image_search_engine.metadata import jumia_3650
-import torch
-import pandas as pd
-from PIL import Image
-from torch.utils.data import Dataset, DataLoader
-import joblib
 from pathlib import Path
-from torchvision import transforms
 
 import joblib
+import pandas as pd
+import torch
+from PIL import Image
+from torch.utils.data import DataLoader, Dataset
+from torchvision import transforms
+
+from image_search_engine.metadata import jumia_3650
 
 PACKAGE_DIR = Path(__file__).parent.parent
 

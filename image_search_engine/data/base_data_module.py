@@ -1,9 +1,10 @@
-from image_search_engine.metadata import jumia_3650
-import torch
 import pandas as pd
+import torch
 from PIL import Image
-from torch.utils.data import Dataset, DataLoader
 from sklearn.preprocessing import LabelEncoder
+from torch.utils.data import DataLoader, Dataset
+
+from image_search_engine.metadata import jumia_3650
 
 encoder = LabelEncoder()
 

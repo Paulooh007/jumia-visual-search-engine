@@ -1,6 +1,7 @@
 import zipfile
-from tqdm import tqdm
 from pathlib import Path
+
+from tqdm import tqdm
 
 
 def zip_folder(source_dir, out_dir):

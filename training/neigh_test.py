@@ -1,10 +1,10 @@
+import gradio as gr
+import numpy as np
+
 from image_search_engine.metadata import jumia_3650
-from training.utils import load_serialized_object, TRAINING_DIR, DEVICE
 from image_search_engine.models import EfficientNet_b0_ns
 from image_search_engine.utils import load_json_file
-import numpy as np
-import gradio as gr
-
+from training.utils import DEVICE, TRAINING_DIR, load_serialized_object
 
 MODEL_DIR = TRAINING_DIR / "artifacts/models"
 WEIGHTS_DIR = TRAINING_DIR / "artifacts/weights"

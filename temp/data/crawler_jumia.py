@@ -1,11 +1,10 @@
-import scrapy
 from pathlib import Path
+
+import scrapy
+from metadata import MAX_PAGE, PRODUCT_BASE_URLS, PRODUCT_CATEGORIES
+from scrapy.crawler import CrawlerProcess
 from selenium.webdriver import Chrome, ChromeOptions
 from webdriver_manager.chrome import ChromeDriverManager
-
-from scrapy.crawler import CrawlerProcess
-
-from metadata import PRODUCT_BASE_URLS, PRODUCT_CATEGORIES, MAX_PAGE
 
 
 class ProductsSpider(scrapy.Spider):

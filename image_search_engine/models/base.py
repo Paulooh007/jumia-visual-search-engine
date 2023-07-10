@@ -1,34 +1,26 @@
-import torch
-import torch.nn as nn
-
-
 import copy
 import gc
+import time
 import warnings
 from collections import defaultdict
-import numpy as np
-
-from colorama import Back, Fore, Style
-
-from PIL import Image
 
 # Utils
 import numpy as np
-
 # Pytorch Imports
 import torch
+import torch.nn as nn
+from colorama import Back, Fore, Style
+from PIL import Image
+# Sklearn Imports
+from torch import nn
 from torchvision import transforms
+from tqdm import tqdm
 
 # import torch.nn as nn
 
-import time
-
-# Sklearn Imports
-from torch import nn
-from tqdm import tqdm
 
 
-from colorama import Back, Fore, Style
+
 
 b_ = Fore.BLUE
 sr_ = Style.RESET_ALL

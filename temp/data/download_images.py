@@ -1,10 +1,10 @@
-import pandas as pd
-import requests
 import os
 import shutil
 from pathlib import Path
-from tqdm import tqdm
 
+import pandas as pd
+import requests
+from tqdm import tqdm
 from utils import zip_folder
 
 project_dir = Path(__file__).resolve().parents[2]

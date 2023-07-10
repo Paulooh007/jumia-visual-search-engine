@@ -1,12 +1,12 @@
 import json
-import torch
-import numpy as np
 import os
 from pathlib import Path
+
+import joblib
+import numpy as np
+import torch
 from torch.optim import lr_scheduler
 from torchvision import transforms
-import joblib
-
 
 TRAINING_DIR = Path(__file__).parent
 PROJECT_DIR = TRAINING_DIR.parent

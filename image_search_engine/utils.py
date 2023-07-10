@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+
 import joblib
 
 PACKAGE_DIR = Path(__file__).parent

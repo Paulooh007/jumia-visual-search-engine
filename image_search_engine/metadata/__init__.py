@@ -1,2 +1,1 @@
-from . import shared
-from . import jumia_3650
+from . import jumia_3650, shared

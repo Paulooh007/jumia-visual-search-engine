@@ -1,8 +1,8 @@
-from image_search_engine.product_image_search import JumiaProductSearch
-from image_search_engine.metadata import jumia_3650
-from image_search_engine.utils import load_json_file
 import gradio as gr
 
+from image_search_engine.metadata import jumia_3650
+from image_search_engine.product_image_search import JumiaProductSearch
+from image_search_engine.utils import load_json_file
 
 product_json = jumia_3650.PROCESSED_DATA_DIRNAME / "jumia_3650.json"
 PRODUCT_IMG_DIR = jumia_3650.PROCESSED_DATA_DIRNAME / "train"

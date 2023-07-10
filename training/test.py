@@ -1,11 +1,12 @@
-import torch
-import pandas as pd
-from sklearn.neighbors import NearestNeighbors
-from image_search_engine.models import EfficientNet_b0_ns
-from training.utils import TRAINING_DIR, DEVICE, serialize_object
-from image_search_engine.metadata import jumia_3650
 from datetime import datetime
 
+import pandas as pd
+import torch
+from sklearn.neighbors import NearestNeighbors
+
+from image_search_engine.metadata import jumia_3650
+from image_search_engine.models import EfficientNet_b0_ns
+from training.utils import DEVICE, TRAINING_DIR, serialize_object
 
 WEIGHTS_DIR = TRAINING_DIR / "artifacts/weights"
 EMBEDDINGS_DIR = TRAINING_DIR / "artifacts/embeddings"
@@ -51,8 +52,9 @@ def get_sim_img(img_path):
     return plt_path
 
 
-import matplotlib.pyplot as plt
 import random
+
+import matplotlib.pyplot as plt
 
 
 def plot_similar_images(query_image_path, similar_image_paths):
