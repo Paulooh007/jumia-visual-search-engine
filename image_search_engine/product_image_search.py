@@ -23,7 +23,6 @@ class JumiaProductSearch:
         return query_embedding
 
     def search(self, image):
-        # 08107
         query_embedding = self._encode(image)
         distances, idxs = self.index.kneighbors(query_embedding, return_distance=True)
         return idxs
@@ -32,5 +31,5 @@ class JumiaProductSearch:
 if __name__ == "__main__":
     search = JumiaProductSearch()
     test_img = utils.PACKAGE_DIR / "tests/test_img/1.jpg"
-    xq = search.search(test_img)
-    print(xq)
+    idx = search.search(test_img)
+    print(idx)
