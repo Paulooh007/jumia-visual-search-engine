@@ -26,12 +26,10 @@ test_img = utils.PACKAGE_DIR / "tests/test_img/1.jpg"
 
 
 def search(query):
-    # create query vector
     xq = jumia._encode(query)
-    # search index
     res = index.query(xq.tolist(), top_k=10, include_metadata=True)
     images = []
-    # print results
+
     for i, record in enumerate(res["matches"]):
         metadata = record["metadata"]
         images.append(metadata["product_image_url"])

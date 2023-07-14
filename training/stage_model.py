@@ -1,5 +1,5 @@
 import torch
-from utils import PACKAGE_DIR
+from image_search_engine.utils import PACKAGE_DIR
 
 from models import EfficientNet_b0_ns
 from training.utils import DEVICE

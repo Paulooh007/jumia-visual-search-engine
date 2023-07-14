@@ -16,14 +16,14 @@ class JumiaProductSearch:
         self.model.load_state_dict(torch.load(model_path))
         self.index = utils.load_serialized_object(utils.STAGED_MODEL_DIR / INDEX_FILE)
 
-    def _encode(self, image):
+    def encode(self, image):
         query_embedding = self.model.generate_embeddings(str(image))
         query_embedding = np.array(query_embedding).astype("float32")
         query_embedding.reshape(1, -1)
         return query_embedding
 
     def search(self, image):
-        query_embedding = self._encode(image)
+        query_embedding = self.encode(image)
         distances, idxs = self.index.kneighbors(query_embedding, return_distance=True)
         return idxs
 
