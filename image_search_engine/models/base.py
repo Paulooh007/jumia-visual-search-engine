@@ -3,6 +3,7 @@ import gc
 import time
 import warnings
 from collections import defaultdict
+from pathlib import Path
 
 # Utils
 import numpy as np
@@ -211,3 +212,42 @@ class BaseModel(nn.Module):
             embeddings.append(embedding.squeeze().cpu().numpy())
 
         return embeddings
+
+    def generate_embeddings_(self, image, data_transforms=None):
+        if data_transforms is None:
+            data_transforms = transforms.Compose(
+                [
+                    transforms.ToTensor(),
+                    transforms.Resize((224, 224)),
+                    transforms.Normalize(
+                        mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
+                    ),
+                ]
+            )
+
+        self.eval()
+
+        if isinstance(image, str):
+            image_path = image
+        elif isinstance(image, Path):
+            image_path = str(image)
+        elif isinstance(image, Image.Image):
+            image_path = None
+            image_pil = image.convert("RGB")
+        else:
+            raise ValueError(
+                "Invalid image type. Must be a string, Path, or PIL Image."
+            )
+
+        if image_path is not None:
+            image_pil = Image.open(image_path).convert("RGB")
+
+        image = data_transforms(image_pil)
+        image = image.unsqueeze(0)  # Add batch dimension
+        image = image.to(DEVICE)
+
+        # Generate embedding
+        with torch.no_grad():
+            embedding = self(image)
+
+        return embedding.squeeze().cpu().numpy()

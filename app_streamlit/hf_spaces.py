@@ -1,12 +1,15 @@
+import os
+from huggingface_hub import hf_hub_download
+import joblib
 import pinecone
 from dotenv import load_dotenv
 from pathlib import Path
-import os
-from image_search_engine import utils
-from image_search_engine.product_image_search import JumiaProductSearch
 
+from image_search_engine import utils
 import gradio as gr
 
+REPO_ID = "paulokewunmi/jumia_3650_v1.0.0"
+FILENAME = "model.joblib"
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
 INDEX_NAME = "jumia-product-embeddings"
@@ -16,18 +19,18 @@ load_dotenv(PROJECT_DIR / ".env")
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_ENV = os.getenv("PINECONE_ENV")
 
+model = joblib.load(hf_hub_download(repo_id=REPO_ID, filename=FILENAME))
+
 pinecone.init(api_key=PINECONE_API_KEY, environment=PINECONE_ENV)
 index = pinecone.Index(INDEX_NAME)
 
 print(index.describe_index_stats())
-
-jumia = JumiaProductSearch()
 test_img = utils.PACKAGE_DIR / "tests/test_img/1.jpg"
 
 
 def search(query):
-    xq = jumia.encode(query)
-    res = index.query(xq.tolist(), top_k=10, include_metadata=True)
+    xq = model.generate_embeddings(query)
+    res = index.query(xq[0].tolist(), top_k=10, include_metadata=True)
     images = []
 
     for i, record in enumerate(res["matches"]):

@@ -22,6 +22,11 @@ class JumiaProductSearch:
         query_embedding.reshape(1, -1)
         return query_embedding
 
+    def encode_(self, image):
+        query_embedding = self.model.generate_embeddings_(image)
+
+        return query_embedding.tolist()
+
     def search(self, image):
         query_embedding = self.encode(image)
         distances, idxs = self.index.kneighbors(query_embedding, return_distance=True)
