@@ -1,8 +1,19 @@
-jumia-visual-search-engine
+<p  align="center">
+
+<img  src="jumia_lens.png"  alt="project banner"  height=300  width=820/>
+
+</p>  
+
+# jumia-visual-search-engine
 ==============================
 
 A visual search engine for Jumia that lets users search for products by uploading an image. It uses computer vision to find similar or identical products within the store's inventory, saving users time and providing a more personalized shopping experience.
 
+<p  align="center">
+
+<img  src="demo.png"  alt="demo img"/>
+
+</p>  
 
 ## Simple demo to test locally.
 

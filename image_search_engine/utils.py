@@ -1,10 +1,23 @@
 import json
 from pathlib import Path
-
+import smart_open
 import joblib
+from typing import Union
+from PIL import Image
 
 PACKAGE_DIR = Path(__file__).parent
 STAGED_MODEL_DIR = PACKAGE_DIR / "artifacts/model_staged"
+
+
+def read_image_pil(image_uri: Union[Path, str]) -> Image:
+    with smart_open.open(image_uri, "rb") as image_file:
+        return read_image_pil_file(image_file)
+
+
+def read_image_pil_file(image_file) -> Image:
+    with Image.open(image_file) as image:
+        image = image.convert(mode=image.mode)
+    return image
 
 
 def load_serialized_object(file_path):

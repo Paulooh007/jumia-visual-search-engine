@@ -5,40 +5,18 @@ from pathlib import Path
 import os
 from image_search_engine import utils
 from image_search_engine.product_image_search import JumiaProductSearch
-from PIL import Image
+from PIL import Image, ImageOps
 
 import requests
 
 
 from streamlit_image_select import image_select
 
-
-PROJECT_DIR = Path(__file__).resolve().parents[1]
-INDEX_NAME = "jumia-product-embeddings"
-
-load_dotenv(PROJECT_DIR / ".env")
-
-PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
-PINECONE_ENV = os.getenv("PINECONE_ENV")
-
-
-@st.cache_resource
-def load_pinecone_existing_index():
-    pinecone.init(api_key=PINECONE_API_KEY, environment=PINECONE_ENV)
-    index = pinecone.Index(INDEX_NAME)
-    return index
-
-
-index = load_pinecone_existing_index()
-
-
 jumia = JumiaProductSearch()
-test_img = utils.PACKAGE_DIR / "tests/test_img/1.jpg"
 
 
-def search(query):
-    xq = jumia.encode_(query)
-    res = index.query(xq, top_k=9, include_metadata=True)
+def get_search_results(query):
+    res = jumia.search(query, 9)
 
     images, names, urls = [], [], []
 
@@ -51,14 +29,17 @@ def search(query):
     return images, names, urls
 
 
-input_options = st.radio(
-    "Upload file or Use Example images", ("upload", "use sample image")
-)
+banner_img = Image.open(utils.PACKAGE_DIR.parent / "jumia_lens.png")
+st.image(banner_img)
+
+
+input_options = st.radio("Select Input Option", ("image upload", "use example images"))
 
 img = None
 
-if input_options == "upload":
+if input_options == "image upload":
     img = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
+
 
 else:
     with st.expander(label="Chose sample image", expanded=False):
@@ -76,26 +57,21 @@ else:
             ],
         )
 
-# else:
-#     img = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
 
-
-# if uploaded_file is not None or img:
 if img:
-    # Read the uploaded image
-    # image = Image.open(img)
     if isinstance(img, str):
         image = Image.open(requests.get(img, stream=True).raw)
     else:
         image = Image.open(img)
 
-    # image = Image.open(uploaded_file or img)
+    image = ImageOps.exif_transpose(image)
 
     with st.columns(3)[1]:
+        st.markdown("### Query Image.")
         st.image(image)
 
     n = 3
-    product_images, product_names, product_urls = search(image)
+    product_images, product_names, product_urls = get_search_results(image)
 
     for i, col in enumerate(st.columns(n)):
         positions = (i, i + 3, i + 6)
