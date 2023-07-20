@@ -10,6 +10,9 @@ from sklearn.manifold import TSNE
 from image_search_engine.metadata import jumia_3650
 from training.utils import load_serialized_object
 
+from matplotlib.offsetbox import AnnotationBbox, OffsetImage
+from PIL import Image
+
 TRAIN_FILENAME = jumia_3650.PROCESSED_DATA_DIRNAME / "train.csv"
 
 
@@ -59,11 +62,6 @@ scatter_plot = plt.scatter(
 )
 plt.colorbar(scatter_plot)
 plt.savefig("tsne.png")
-
-
-from matplotlib.cbook import get_sample_data
-from matplotlib.offsetbox import AnnotationBbox, OffsetImage
-from PIL import Image
 
 
 def plot_images_in_2d(x, y, image_paths, axis=None, zoom=1):

@@ -8,6 +8,10 @@ from image_search_engine.metadata import jumia_3650
 from image_search_engine.models import EfficientNet_b0_ns
 from training.utils import DEVICE, TRAINING_DIR, serialize_object
 
+import random
+
+import matplotlib.pyplot as plt
+
 WEIGHTS_DIR = TRAINING_DIR / "artifacts/weights"
 EMBEDDINGS_DIR = TRAINING_DIR / "artifacts/embeddings"
 MODEL_DIR = TRAINING_DIR / "artifacts/models"
@@ -50,11 +54,6 @@ def get_sim_img(img_path):
         plt_path += list(jumia_3650.PROCESSED_DATA_DIRNAME / df["filepath"][id])
 
     return plt_path
-
-
-import random
-
-import matplotlib.pyplot as plt
 
 
 def plot_similar_images(query_image_path, similar_image_paths):

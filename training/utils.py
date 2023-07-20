@@ -6,7 +6,6 @@ import joblib
 import numpy as np
 import torch
 from torch.optim import lr_scheduler
-from torchvision import transforms
 
 TRAINING_DIR = Path(__file__).parent
 PROJECT_DIR = TRAINING_DIR.parent
@@ -54,7 +53,7 @@ def fetch_scheduler(optimizer, dl_len):
             total_steps=CONFIG["epochs"] * dl_len,
         )
 
-    elif CONFIG["scheduler"] == None:
+    elif CONFIG["scheduler"] is None:
         return None
 
     return scheduler
