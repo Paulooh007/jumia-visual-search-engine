@@ -39,7 +39,7 @@ class ArcMarginProduct(nn.Module):
     def forward(self, input, label):
         # --------------------------- cos(theta) & phi(theta) ---------------------
         cosine = F.linear(F.normalize(input), F.normalize(self.weight))
-        if ENABLE_HALF_PRECISION == True:
+        if ENABLE_HALF_PRECISION:
             cosine = cosine.to(torch.float32)
         sine = torch.sqrt(1.0 - torch.pow(cosine, 2))
         phi = cosine * self.cos_m - sine * self.sin_m
@@ -47,13 +47,12 @@ class ArcMarginProduct(nn.Module):
             phi = torch.where(cosine > 0, phi, cosine)
         else:
             phi = torch.where(cosine > self.th, phi, cosine - self.mm)
-        # --------------------------- convert label to one-hot ---------------------
-        # one_hot = torch.zeros(cosine.size(), requires_grad=True, device='cuda')
+        # -------------------- convert label to one-hot ---------------------
         one_hot = torch.zeros(cosine.size(), device=DEVICE)
         one_hot.scatter_(1, label.view(-1, 1).long(), 1)
         if self.ls_eps > 0:
             one_hot = (1 - self.ls_eps) * one_hot + self.ls_eps / self.out_features
-        # -------------torch.where(out_i = {x_i if condition_i else y_i) ------------
+        # -------torch.where(out_i = {x_i if condition_i else y_i) -------
         output = (one_hot * phi) + ((1.0 - one_hot) * cosine)
         output *= self.s
 
