@@ -1,6 +1,5 @@
 import os
 
-import tqdm
 import pinecone
 from image_search_engine.metadata import jumia_3650
 from pathlib import Path

@@ -9,6 +9,13 @@ from streamlit_image_select import image_select
 
 jumia = JumiaProductSearch()
 
+file_path = "app_streamlit/image_urls.txt"
+url_list = []
+with open(file_path, "r") as file:
+    for line in file:
+        url = line.strip()
+        url_list.append(url)
+
 
 def get_search_results(query):
     res = jumia.search(query, 9)
@@ -40,16 +47,7 @@ else:
     with st.expander(label="Chose sample image", expanded=False):
         img = image_select(
             label="Use example image",
-            images=[
-                "https://ng.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/88/3305912/1.jpg?5807",
-                "https://ng.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/74/0464341/1.jpg?7325",
-                "https://watchlocker.ng/wp-content/uploads/2021/04/JY8085-14H.jpg",
-                "https://www-konga-com-res.cloudinary.com/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/media/catalog/product/M/L/196920_1641394875.jpg",
-                "https://www-konga-com-res.cloudinary.com/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/media/catalog/product/I/K/154983_1595624114.jpg",
-                "https://ng.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/73/3254702/1.jpg?5592",
-                "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MKUQ3_VW_34FR+watch-44-alum-midnight-cell-se_VW_34FR_WF_CO_GEO_AE?wid=1400&hei=1400&trim=1%2C0&fmt=p-jpg&qlt=95&.v=1683237043713",
-                "https://ng.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/71/6579011/1.jpg?5730",
-            ],
+            images=url_list,
         )
 
 

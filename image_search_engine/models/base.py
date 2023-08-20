@@ -9,7 +9,6 @@ import numpy as np
 
 # Pytorch Imports
 import torch
-import torch.nn as nn
 from colorama import Fore, Style
 
 # Sklearn Imports

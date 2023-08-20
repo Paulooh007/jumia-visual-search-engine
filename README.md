@@ -4,7 +4,7 @@
 
 </p>  
 
-# jumia-visual-search-engine
+# jumia-visual-search-engine ([Try out !!!](https://huggingface.co/spaces/paulokewunmi/jumia_product_search))
 ==============================
 
 A visual search engine for Jumia that lets users search for products by uploading an image. It uses computer vision to find similar or identical products within the store's inventory, saving users time and providing a more personalized shopping experience.

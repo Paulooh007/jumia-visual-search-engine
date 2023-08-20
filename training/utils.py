@@ -21,7 +21,8 @@ def load_config(
 
 
 def set_seed(seed=42):
-    """Sets the seed of the entire notebook so results are the same every time we run.
+    """Sets the seed of the entire notebook
+    so results are the same every time we run.
     This is for REPRODUCIBILITY."""
     np.random.seed(seed)
     torch.manual_seed(seed)

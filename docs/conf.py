@@ -11,8 +11,8 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import os
-import sys
+# import os
+# import sys
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -241,7 +241,12 @@ texinfo_documents = [
         "jumia-visual-search-engine Documentation",
         "Paul Okewunmi",
         "jumia-visual-search-engine",
-        "A visual search engine for Jumia that lets users search for products by uploading an image. It uses computer vision to find similar or identical products within the store's inventory, saving users time and providing a more personalized shopping experience.",
+        "A visual search engine for Jumia that lets users \
+        search for products by uploading an image. \
+        It uses computer vision to find similar or \
+        identical products within the store's inventory, \
+        saving users time and providing a more personalized  \
+        shopping experience.",
         "Miscellaneous",
     ),
 ]

@@ -47,7 +47,7 @@ def get_sim_img(img_path):
     img_emb = model.generate_embeddings(img_path)
 
     distances, idxs = neigh.kneighbors(img_emb, return_distance=True)
-    conf = 1 - distances
+    # conf = 1 - distances
 
     plt_path = []
     for id in idxs:
