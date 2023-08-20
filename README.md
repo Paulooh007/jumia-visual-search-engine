@@ -15,13 +15,6 @@ A visual search engine for Jumia that lets users search for products by uploadin
 
 </p>  
 
-## Simple demo to test locally.
-
-<p align="center">
-<img src="https://github.com/Paulooh007/project_gifs/blob/78e5f6a296c3464f16552ecafd6bf4608ee3b61b/chrome-capture-2023-6-9%20(2)(1).gif" alt="Demo gif" title="Demo gif" height="600" width="700"/>
-</p>
-
-
 <details>
 <summary>Click to expand/collapse</summary>
 
@@ -41,32 +34,26 @@ Project Organization
     │
     ├── models             <- Trained and serialized models, model predictions, or model summaries
     │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
-    │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-    │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
     │
     ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
     │                         generated with `pip freeze > requirements.txt`
     │
     ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
-    ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module
+    ├── image_search_engine                <- Source code for use in this project.
+    │   ├── __init__.py    <- Makes image_search_engine a Python module
     │   │
-    │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
+    │   ├── artifacts           <- Submodule containing model artifacts and saved checkpoints.
     │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
+    │   ├── data       <- Submodule responsible for data management and data class definitions.
     │   │   └── build_features.py
     │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
+    │   ├── metadata         <- Submodule containing metadata related to the data classes. 
+    |   |
+    │   ├── models         <- Submodule housing various PyTorch model classes for training/experimentation.       
+    │   │   ├── base.py
+    │   │   ├── arc_margin_product.py
+    │   │   ├── efficientnet_ns.py
+    │   │   └── gem_pooling.py
     │   │
     │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
     │       └── visualize.py
