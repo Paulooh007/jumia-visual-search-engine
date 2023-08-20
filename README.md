@@ -4,7 +4,7 @@
 
 </p>  
 
-# jumia-visual-search-engine ([Try out !!!](https://huggingface.co/spaces/paulokewunmi/jumia_product_search))
+# jumia-visual-search-engine ([Try out !!](https://huggingface.co/spaces/paulokewunmi/jumia_product_search))
 ==============================
 
 A visual search engine for Jumia that lets users search for products by uploading an image. It uses computer vision to find similar or identical products within the store's inventory, saving users time and providing a more personalized shopping experience.
@@ -41,11 +41,13 @@ Project Organization
     ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
     ├── image_search_engine                <- Source code for use in this project.
     │   ├── __init__.py    <- Makes image_search_engine a Python module
+    │   ├── product_image_search.py    <- entry point for using `image_search_engine`
     │   │
     │   ├── artifacts           <- Submodule containing model artifacts and saved checkpoints.
     │   │
     │   ├── data       <- Submodule responsible for data management and data class definitions.
-    │   │   └── build_features.py
+    │   │   ├── base_data_module.py
+    │   │   └── jumia_3650_dataset.py
     │   │
     │   ├── metadata         <- Submodule containing metadata related to the data classes. 
     |   |
@@ -54,9 +56,10 @@ Project Organization
     │   │   ├── arc_margin_product.py
     │   │   ├── efficientnet_ns.py
     │   │   └── gem_pooling.py
-    │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
+    |   |
+    │   └── tests         <- Submodule dedicated to test scripts and sample data/images for model testing and validation.  
+    │    
+    ├── training           <- Includes scripts for train/experimentation and staging of models.
     │
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 

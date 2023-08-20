@@ -1,11 +1,10 @@
+import requests
 import streamlit as st
+from PIL import Image, ImageOps
+from streamlit_image_select import image_select
+
 from image_search_engine import utils
 from image_search_engine.product_image_search import JumiaProductSearch
-from PIL import Image, ImageOps
-
-import requests
-
-from streamlit_image_select import image_select
 
 jumia = JumiaProductSearch()
 

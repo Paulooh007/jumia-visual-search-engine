@@ -1,13 +1,14 @@
-import torch
 import os
+from pathlib import Path
+from typing import Union
+
+import pinecone
+import torch
+from dotenv import load_dotenv
+from PIL import Image
 
 from image_search_engine import utils
 from image_search_engine.models import EfficientNet_b0_ns
-from typing import Union
-from pathlib import Path
-from PIL import Image
-from dotenv import load_dotenv
-import pinecone
 
 MODEL_FILE = "model.pt"
 INDEX_FILE = "index.pkl"

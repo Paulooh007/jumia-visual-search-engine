@@ -6,11 +6,9 @@ from collections import defaultdict
 
 # Utils
 import numpy as np
-
 # Pytorch Imports
 import torch
 from colorama import Fore, Style
-
 # Sklearn Imports
 from torch import nn
 from torchvision import transforms

@@ -4,14 +4,13 @@ import time
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from matplotlib.offsetbox import AnnotationBbox, OffsetImage
+from PIL import Image
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 
 from image_search_engine.metadata import jumia_3650
 from training.utils import load_serialized_object
-
-from matplotlib.offsetbox import AnnotationBbox, OffsetImage
-from PIL import Image
 
 TRAIN_FILENAME = jumia_3650.PROCESSED_DATA_DIRNAME / "train.csv"
 

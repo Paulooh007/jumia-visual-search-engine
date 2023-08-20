@@ -1,7 +1,7 @@
 import torch
-from image_search_engine.utils import PACKAGE_DIR
-
 from models import EfficientNet_b0_ns
+
+from image_search_engine.utils import PACKAGE_DIR
 from training.utils import DEVICE
 
 model = EfficientNet_b0_ns(load_weights=True).to(DEVICE)

@@ -1,16 +1,13 @@
 import os
+from pathlib import Path
 
 import pinecone
-from image_search_engine.metadata import jumia_3650
-from pathlib import Path
 from dotenv import load_dotenv
 from tqdm.auto import tqdm
 
-from image_search_engine.utils import (
-    load_serialized_object,
-    load_json_file,
-    PACKAGE_DIR,
-)
+from image_search_engine.metadata import jumia_3650
+from image_search_engine.utils import (PACKAGE_DIR, load_json_file,
+                                       load_serialized_object)
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
 EMBEDDINGS_FILE = PACKAGE_DIR / "artifacts/embeddings/embed_2023-07-09_15-17-45.pkl"

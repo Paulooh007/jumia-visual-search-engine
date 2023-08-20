@@ -1,8 +1,9 @@
 import json
 from pathlib import Path
-import smart_open
-import joblib
 from typing import Union
+
+import joblib
+import smart_open
 from PIL import Image
 
 PACKAGE_DIR = Path(__file__).parent

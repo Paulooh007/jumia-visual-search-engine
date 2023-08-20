@@ -1,5 +1,7 @@
+import random
 from datetime import datetime
 
+import matplotlib.pyplot as plt
 import pandas as pd
 import torch
 from sklearn.neighbors import NearestNeighbors
@@ -7,10 +9,6 @@ from sklearn.neighbors import NearestNeighbors
 from image_search_engine.metadata import jumia_3650
 from image_search_engine.models import EfficientNet_b0_ns
 from training.utils import DEVICE, TRAINING_DIR, serialize_object
-
-import random
-
-import matplotlib.pyplot as plt
 
 WEIGHTS_DIR = TRAINING_DIR / "artifacts/weights"
 EMBEDDINGS_DIR = TRAINING_DIR / "artifacts/embeddings"
