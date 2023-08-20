@@ -15,8 +15,43 @@ A visual search engine for Jumia that lets users search for products by uploadin
 
 </p>  
 
+
+
+## Development: Local setup.
+To successfully set this project up locally:
+### 1. Clone the Repository
+```bash
+git clone https://github.com/yourusername/yourproject.git
+```
+```
+cd jumia-visual-search-engine
+```
+
+### 2. Create a `.env` File.
+Copy the contents of `env.example` into `.env` and add your pinecone api key.
+```
+cp env.example .env
+```
+
+### 3. Create a Virtual Environment and Install Dependencies.
+```
+pip install -r requirements.txt
+```
+### 4. Run application.
+```
+python -m streamlit run app_streamlit/app.py
+```
+
+
+
+
+
+
+
+
+
 <details>
-<summary>Click to expand/collapse</summary>
+<summary>Expand to see project file tree.</summary>
 
 Project Organization
 ------------
