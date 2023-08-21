@@ -17,7 +17,15 @@ A visual search engine for Jumia that lets users search for products by uploadin
 
 
 
-## Development: Local setup.
+## Development: 
+
+### Tech Stack
+1. Pytorch: Model building and development
+2. Pinecone: Vector database for storing embeddings.
+3. Huggingface: Model store and deployment.
+
+### Local setup.
+
 To successfully set this project up locally:
 ### 1. Clone the Repository
 ```bash
